@@ -1,7 +1,7 @@
 ﻿using Chat.Application.Common.Interfaces;
 using Chat.MVC.Services;
 
-namespace Chat.MVC;
+namespace Chat.MVC.Configurations;
 
 public static class ConfigureServices
 {

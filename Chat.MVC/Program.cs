@@ -1,5 +1,7 @@
 using Chat.Application;
 using Chat.Infrastructure;
+using Chat.MVC.Configurations;
+
 namespace Chat.MVC;
 
 public class Program
@@ -14,7 +16,7 @@ public class Program
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddChatMVCServices();
         builder.Services.AddApplication();
-      
+        builder.Services.AddCookieAuthentication(builder.Configuration);
 
         var app = builder.Build();
 
