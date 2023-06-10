@@ -1,4 +1,5 @@
 ﻿using Chat.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -17,6 +18,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize]
     public IActionResult Privacy()
     {
         return View();
