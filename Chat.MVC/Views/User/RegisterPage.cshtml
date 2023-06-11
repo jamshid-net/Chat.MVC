@@ -3,8 +3,8 @@
     ViewData["Title"] = "User Registration";
 }
 
-<h2>@ViewData["Title"]</h2>
-<form method="post" action="/User/Register">
+<h2 class="text-white">@ViewData["Title"]</h2>
+<form method="post" class="text-white w-25" action="/User/Register">
     <div class="form-group">
         <label for="UserName">Username:</label>
         <input type="text" class="form-control" id="UserName" name="UserName">
@@ -25,5 +25,10 @@
         <input type="password" class="form-control" id="PasswordConfirm" name="PasswordConfirm" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary mt-3">Register</button>
 </form>
+<style>
+    body {
+        background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
+    }
+</style>
