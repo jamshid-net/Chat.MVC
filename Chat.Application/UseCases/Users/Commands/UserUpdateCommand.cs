@@ -32,7 +32,7 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommand, bool>
         foreach (var property in properties)
         {
             var requestValue = property.GetValue(request);
-            if (requestValue is not null)
+            if (requestValue is not null && property.Name is not "UserId")
             {
                 var entityProperty = entity.GetType().GetProperty(property.Name);
                 entityProperty.SetValue(entity, requestValue);

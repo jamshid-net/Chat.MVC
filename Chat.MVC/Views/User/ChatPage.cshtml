@@ -15,7 +15,7 @@
                     <div class="chat-messages">
                         
                             <div class="message">
-                                <div class="message-sender">@User.FindFirst(ClaimTypes.Name).Value</div>
+                                <div class="message-sender">@User?.FindFirst(ClaimTypes.Name)?.Value</div>
                                 <div class="message-content">2</div>
                             </div>
                         

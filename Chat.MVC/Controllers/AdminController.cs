@@ -11,8 +11,13 @@ public class AdminController : BaseController
 {
     public IActionResult AdminLoginPage()
     {
+        bool isLoggedIn = true;
+        ViewBag.IsLoggedIn = isLoggedIn;
         return View();
     }
+
+    
+
 
     [HttpPost]
     public async ValueTask<IActionResult> Login([FromForm] AdminLoginCommand command)
@@ -22,9 +27,18 @@ public class AdminController : BaseController
         return RedirectToAction("AdminMainPage");
     }
 
+    [HttpGet] 
+    public async ValueTask<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Index","Home");
+    }
+
     [Authorize(Roles ="admin")]
     public  async ValueTask<IActionResult> AdminMainPage()
     {
         return await ValueTask.FromResult(View());
     }
+
+    
 }
