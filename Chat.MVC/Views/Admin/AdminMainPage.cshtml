@@ -1,12 +1,17 @@
 ﻿@using Chat.Application.UseCases.Users.Queries;
+@using Chat.Application.Common.Models;
 @inject MediatR.IMediator mediator;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@model IEnumerable<Chat.Application.Common.Models.UserGetDto>
 
 
 @{
-    var users=  await mediator.Send(new UserGetAllQuery());
- 
+   
 }
- 
+
+
 <div class="d-flex justify-content-end w-100 mb-3">
     <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#adduserModal">+ Add User</button>
     <a  href="/Admin/Logout" class="btn btn-danger">Log out!</a>
@@ -22,7 +27,7 @@
     </tr>
   </thead>
   <tbody>
-   @foreach (var user in users)
+   @foreach (var user in Model)
     {
      <tr>
        <th scope="row">@user.Id</th>
@@ -37,9 +42,22 @@
       </tr>
 
       }
+
  
   </tbody>
 </table>
+<div class="container fixed-bottom d-flex align-items-center justify-content-center">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("AdminMainPage", new { page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptions
+    {
+    DisplayItemSliceAndTotal = false,
+    ContainerDivClasses = new[] { "navigation" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    })
+
+</div>
+
 
 <!--Update Modal dialog-->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -159,9 +177,7 @@
 
         var createModal = document.getElementById('adduserModal')
         createModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget
-            var modalTitle = createModal.querySelector('.modal-title')
-            var modalBodyInput = createModal.querySelector('.modal-body input')
+            
         })
 
 

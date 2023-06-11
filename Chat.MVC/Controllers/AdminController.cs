@@ -1,10 +1,12 @@
 ﻿using Chat.Application.UseCases.Admin.Commands;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Chat.Application.UseCases.Users.Queries;
+using Chat.MVC.Attributes;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using X.PagedList;
 
 namespace Chat.MVC.Controllers;
 public class AdminController : BaseController
@@ -16,7 +18,7 @@ public class AdminController : BaseController
         return View();
     }
 
-    
+
 
 
     [HttpPost]
@@ -27,18 +29,25 @@ public class AdminController : BaseController
         return RedirectToAction("AdminMainPage");
     }
 
-    [HttpGet] 
+    [HttpGet]
     public async ValueTask<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index","Home");
+        return RedirectToAction("Index", "Home");
     }
 
-    [Authorize(Roles ="admin")]
-    public  async ValueTask<IActionResult> AdminMainPage()
+    [Authorize(Roles = "admin")]
+   
+    public async ValueTask<IActionResult> AdminMainPage(int? page=1)
     {
-        return await ValueTask.FromResult(View());
+
+        var pageNumber = page ?? 1;
+        int pageSize = 6;
+        var onePageOfUsers = (await mediator.Send(new UserGetAllQuery())).ToPagedList(pageNumber, pageSize);
+        
+
+        return await ValueTask.FromResult(View(onePageOfUsers));
     }
 
-    
+
 }

@@ -1,9 +1,11 @@
 ﻿using Chat.Application.UseCases.Users.Commands;
+using Chat.Application.UseCases.Users.Queries;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace Chat.MVC.Controllers;
 public class UserController : BaseController
@@ -74,6 +76,8 @@ public class UserController : BaseController
 
 
 
+   
+
     public IActionResult LoginPage()
     {
         return View();
@@ -83,11 +87,6 @@ public class UserController : BaseController
         return await ValueTask.FromResult(View());
     }
 
-    public IActionResult AllUser()
-    {
-
-        return View();
-    }
 
     [Authorize]
     public IActionResult ChatPage()
