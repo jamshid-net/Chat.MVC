@@ -4,6 +4,7 @@ using Chat.Application.Common.Interfaces;
 using Chat.Application.Common.Models;
 using Chat.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Application.UseCases.Messages.Queries;
 
@@ -24,6 +25,7 @@ public class MessageGetByIdQueryHandler : IRequestHandler<MessageGetByIdQuery, M
 
     public async Task<MessageGetDto> Handle(MessageGetByIdQuery request, CancellationToken cancellationToken)
     {
+        
         var entity = await _context.Messages.FindAsync(new object[] { request.Id },cancellationToken);
         if (entity is null)
             throw new NotFoundException(nameof(Message), request.Id);

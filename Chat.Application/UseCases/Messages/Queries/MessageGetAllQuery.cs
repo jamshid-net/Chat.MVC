@@ -21,7 +21,7 @@ public class MessageGetAllQueryHandler : IRequestHandler<MessageGetAllQuery, Lis
 
     public async Task<List<MessageGetDto>> Handle(MessageGetAllQuery request, CancellationToken cancellationToken)
     {
-        var entities =await  _context.Messages.ToListAsync(cancellationToken);
+        var entities =await  _context.Messages.AsNoTracking().ToListAsync(cancellationToken);
         var result = _mapper.Map<List<MessageGetDto>>(entities);
 
         return result;

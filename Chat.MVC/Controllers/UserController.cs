@@ -1,6 +1,7 @@
 ﻿using Chat.Application.UseCases.Users.Commands;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -12,7 +13,7 @@ public class UserController : BaseController
     {
         var claimsIdentity =  await  mediator.Send(login);
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-        return RedirectToAction("Privacy", "Home");
+        return RedirectToAction("ChatPage");
 
     }
 
@@ -26,7 +27,8 @@ public class UserController : BaseController
         return View();
     }
 
-    public IActionResult TestChatPage()
+    [Authorize]
+    public IActionResult ChatPage()
     {
         return View();
     }
