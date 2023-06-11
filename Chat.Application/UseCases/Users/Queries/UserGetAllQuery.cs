@@ -21,7 +21,7 @@ public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQuery, List<User
     }
     public async Task<List<UserGetDto>> Handle(UserGetAllQuery request, CancellationToken cancellationToken)
     {
-        var entities =await _context.Users.ToListAsync(cancellationToken);
+        var entities =await _context.Users.AsNoTracking().ToListAsync(cancellationToken);
         var result = _mapper.Map<List<UserGetDto>>(entities);
         return result;
         
