@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 using X.PagedList;
 
 namespace Chat.MVC.Controllers;
 public class AdminController : BaseController
 {
+    [EnableRateLimiting("FixedLimiter")]
     public IActionResult AdminLoginPage()
     {
         bool isLoggedIn = true;
@@ -20,7 +22,7 @@ public class AdminController : BaseController
 
 
 
-
+    [EnableRateLimiting("FixedLimiter")]
     [HttpPost]
     public async ValueTask<IActionResult> Login([FromForm] AdminLoginCommand command)
     {
@@ -29,6 +31,7 @@ public class AdminController : BaseController
         return RedirectToAction("AdminMainPage");
     }
 
+    [EnableRateLimiting("FixedLimiter")]
     [HttpGet]
     public async ValueTask<IActionResult> Logout()
     {
@@ -36,8 +39,10 @@ public class AdminController : BaseController
         return RedirectToAction("Index", "Home");
     }
 
-    [Authorize(Roles = "admin")]
+
    
+    [EnableRateLimiting("SlidingLimiter")]
+    [Authorize(Roles = "admin")]
     public async ValueTask<IActionResult> AdminMainPage(int? page=1)
     {
 

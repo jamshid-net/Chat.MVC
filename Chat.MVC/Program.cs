@@ -2,6 +2,7 @@ using Chat.Application;
 using Chat.Infrastructure;
 using Chat.MVC.Configurations;
 using Chat.MVC.Middlewares;
+using Chat.MVC.Services;
 
 namespace Chat.MVC;
 
@@ -19,11 +20,11 @@ public class Program
         builder.Services.AddApplication();
         builder.Services.AddCookieAuthentication(builder.Configuration);
         builder.Services.AddLazyCache();
-
+        builder.Services.AddRateLimiterService();
+        
           
-      //  builder.Services.AddRateLimiterService();
         var app = builder.Build();
-
+        
       
         if (!app.Environment.IsDevelopment())
         {
@@ -42,7 +43,7 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
-
+        app.UseRateLimiter();
         app.Run();
     }
 }
