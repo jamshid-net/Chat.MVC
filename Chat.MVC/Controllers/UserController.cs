@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 using X.PagedList;
 
 namespace Chat.MVC.Controllers;
 public class UserController : BaseController
 {
+
+    [EnableRateLimiting("FixedLimiter")]
     [HttpPost]
     public async ValueTask<IActionResult> Login([FromForm] UserLoginCommand login)
     {
@@ -19,6 +22,7 @@ public class UserController : BaseController
 
     }
 
+    [EnableRateLimiting("FixedLimiter")]
     [HttpPost] 
     public async ValueTask<IActionResult> Register([FromForm] UserRegisterCommand register)
     {
@@ -34,7 +38,7 @@ public class UserController : BaseController
     }
 
 
-
+    [EnableRateLimiting("SlidingLimiter")]
     [Authorize(Roles = "admin")]
     [HttpPost]
     public async ValueTask<IActionResult> Update([FromForm] UserUpdateCommand update)
@@ -46,6 +50,8 @@ public class UserController : BaseController
         }
         return RedirectToAction("Error", "Home");
     }
+
+    [EnableRateLimiting("SlidingLimiter")]
     [Authorize(Roles = "admin")]
     [HttpPost]
     public async ValueTask<IActionResult> Create([FromForm] UserCreateCommand create)
@@ -53,15 +59,15 @@ public class UserController : BaseController
         if (ModelState.IsValid)
         {
             await mediator.Send(create);
-            return NoContent();
-          //  return RedirectToAction("AdminMainPage", "Admin");
+           
+            return RedirectToAction("AdminMainPage", "Admin");
         }
         return RedirectToAction("Error", "Home");
     }
 
 
 
-
+    [EnableRateLimiting("SlidingLimiter")]
     [HttpPost]
     [Authorize(Roles = "admin")]
     public async ValueTask<IActionResult> Delete([FromForm] UserDeleteCommand delete)
@@ -78,8 +84,9 @@ public class UserController : BaseController
 
 
 
-   
 
+    
+    [EnableRateLimiting("FixedLimiter")]
     public IActionResult LoginPage()
     {
         return View();
@@ -89,7 +96,7 @@ public class UserController : BaseController
         return await ValueTask.FromResult(View());
     }
 
-
+    
     [Authorize]
     public IActionResult ChatPage()
     {
