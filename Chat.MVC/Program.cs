@@ -1,6 +1,7 @@
 using Chat.Application;
 using Chat.Infrastructure;
 using Chat.MVC.Configurations;
+using Chat.MVC.Middlewares;
 
 namespace Chat.MVC;
 
@@ -18,6 +19,8 @@ public class Program
         builder.Services.AddApplication();
         builder.Services.AddCookieAuthentication(builder.Configuration);
         builder.Services.AddLazyCache();
+
+          
       //  builder.Services.AddRateLimiterService();
         var app = builder.Build();
 
@@ -28,7 +31,7 @@ public class Program
             
             app.UseHsts();
         }
-
+        app.UseGlobalExceptionMiddleware();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
