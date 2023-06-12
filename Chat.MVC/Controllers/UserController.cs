@@ -53,7 +53,8 @@ public class UserController : BaseController
         if (ModelState.IsValid)
         {
             await mediator.Send(create);
-            return RedirectToAction("AdminMainPage", "Admin");
+            return NoContent();
+          //  return RedirectToAction("AdminMainPage", "Admin");
         }
         return RedirectToAction("Error", "Home");
     }
@@ -68,7 +69,8 @@ public class UserController : BaseController
         if (ModelState.IsValid)
         {
             await mediator.Send(delete);
-            return RedirectToAction("AdminMainPage", "Admin");
+            return NoContent();
+            
         }
         return RedirectToAction("Error", "Home");
     }

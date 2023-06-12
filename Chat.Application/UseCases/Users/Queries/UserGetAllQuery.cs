@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Chat.Application.Common.Interfaces;
 using Chat.Application.Common.Models;
-using Chat.Domain.Entities;
 using LazyCache;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

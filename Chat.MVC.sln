@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.MVC", "Chat.MVC\Chat.MVC.csproj", "{8F520C34-4BFB-4604-8281-3EEEF900C837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.MVC", "Chat.MVC\Chat.MVC.csproj", "{8F520C34-4BFB-4604-8281-3EEEF900C837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Domain", "Chat.Domain\Chat.Domain.csproj", "{D87BCF3C-A1F3-4E12-867D-C593D8FD96B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Domain", "Chat.Domain\Chat.Domain.csproj", "{D87BCF3C-A1F3-4E12-867D-C593D8FD96B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Application", "Chat.Application\Chat.Application.csproj", "{B89EA2CF-8E9A-4B88-949D-7CB40A29D219}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Application", "Chat.Application\Chat.Application.csproj", "{B89EA2CF-8E9A-4B88-949D-7CB40A29D219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Infrastructure", "Chat.Infrastructure\Chat.Infrastructure.csproj", "{2BFAFE83-35CD-470C-960B-2CBAA0FF40B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Infrastructure", "Chat.Infrastructure\Chat.Infrastructure.csproj", "{2BFAFE83-35CD-470C-960B-2CBAA0FF40B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21D3B437-418D-4C82-B775-811EA77DA0E6}"
+	ProjectSection(SolutionItems) = preProject
+		test.md = test.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

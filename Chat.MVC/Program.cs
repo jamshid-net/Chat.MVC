@@ -1,6 +1,7 @@
 using Chat.Application;
 using Chat.Infrastructure;
 using Chat.MVC.Configurations;
+using Chat.MVC.Middlewares;
 
 namespace Chat.MVC;
 
@@ -30,7 +31,7 @@ public class Program
             
             app.UseHsts();
         }
-
+        app.UseGlobalExceptionMiddleware();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
