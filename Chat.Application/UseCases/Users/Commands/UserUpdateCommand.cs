@@ -1,7 +1,9 @@
 ﻿using Chat.Application.Common.Exceptions;
 using Chat.Application.Common.Interfaces;
 using Chat.Domain.Entities;
+using LazyCache;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace Chat.Application.UseCases.Users.Commands;
 public class UserUpdateCommand:IRequest<bool>
@@ -15,14 +17,19 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly IHashStringService _hashString;
+    private readonly IConfiguration _configuration;
+    private readonly IAppCache _cache;
 
-    public UserUpdateCommandHandler(IApplicationDbContext context, IHashStringService hashString)
+    public UserUpdateCommandHandler(IApplicationDbContext context, IHashStringService hashString, IAppCache cache, IConfiguration configuration)
     {
         _context = context;
         _hashString = hashString;
+        _cache = cache;
+        _configuration = configuration;
     }
     public async Task<bool> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
     {
+        _cache.Remove(_configuration.GetValue<string>("LazyCache:UserKey"));
         var entity = await _context.Users.FindAsync(new object[] { request.UserId }, cancellationToken);
         if (entity is null)
             throw new NotFoundException(nameof(User), request.UserId);

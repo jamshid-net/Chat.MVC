@@ -18,6 +18,8 @@ public class Program
         builder.Services.AddApplication();
         builder.Services.AddCookieAuthentication(builder.Configuration);
         builder.Services.AddLazyCache();
+
+          
       //  builder.Services.AddRateLimiterService();
         var app = builder.Build();
 

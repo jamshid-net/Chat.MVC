@@ -1,7 +1,9 @@
 ﻿using Chat.Application.Common.Interfaces;
 using Chat.Domain.Entities;
+using LazyCache;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 namespace Chat.Application.UseCases.Users.Commands;
@@ -17,15 +19,20 @@ public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, C
 {
     private readonly IApplicationDbContext _context;
     private readonly IHashStringService _hashStringService;
+    private readonly IConfiguration _configuration;
+    private readonly IAppCache _cache;
 
-    public UserRegisterCommandHandler(IApplicationDbContext context, IHashStringService hashStringService)
+    public UserRegisterCommandHandler(IApplicationDbContext context, IHashStringService hashStringService, IAppCache cache, IConfiguration configuration)
     {
         _context = context;
         _hashStringService = hashStringService;
+        _cache = cache;
+        _configuration = configuration;
     }
 
     public async Task<ClaimsIdentity> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
     {
+        _cache.Remove(_configuration.GetValue<string>("LazyCache:UserKey"));
         string hashedPassword = await _hashStringService.GetHashStringAsync(request.Password);
 
         User user = new User()
