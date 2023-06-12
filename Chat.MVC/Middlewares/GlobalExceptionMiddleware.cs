@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ public class GlobalExceptionMiddleware
         try
         {
          await _next(httpContext);
-
+            Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  AGENT:{ClientAgent}" + $"\nDatetime:{DateTime.Now}  | Path:{httpContext.Request.Path}");
         }
         catch (NotFoundException ex)
         {
@@ -39,6 +40,8 @@ public class GlobalExceptionMiddleware
 
     private async ValueTask<ActionResult> HandleException(HttpContext httpContext, string message, int statuscode, string message2)
     {
+
+        Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  AGENT:{ClientAgent}" + $"\nDatetime:{DateTime.Now} | Message:{message} | Path:{httpContext.Request.Path}");
         HttpResponse response = httpContext.Response;
         response.ContentType = "application/json";
         response.StatusCode = statuscode;
