@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Serilog;
 using System.Net;
 using System.Net.Mail;
@@ -23,7 +24,7 @@ public class GlobalExceptionMiddleware
         try
         {
          await _next(httpContext);
-            Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  AGENT:{ClientAgent}" + $"\nDatetime:{DateTime.Now}  | Path:{httpContext.Request.Path}");
+           
         }
         catch (NotFoundException ex)
         {
@@ -38,22 +39,22 @@ public class GlobalExceptionMiddleware
 
     }
 
-    private async ValueTask<ActionResult> HandleException(HttpContext httpContext, string message, int statuscode, string message2)
+    private async ValueTask<IActionResult> HandleException(HttpContext httpContext, string message, int statuscode, string message2)
     {
 
-        Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}  AGENT:{ClientAgent}" + $"\nDatetime:{DateTime.Now} | Message:{message} | Path:{httpContext.Request.Path}");
+        Log.Error("EXCEPTION:🔴 CLIENT_IP:{ClientIp}" + $"\nDatetime:{DateTime.Now} | Message:{message} | Path:{httpContext.Request.Path}");
         HttpResponse response = httpContext.Response;
         response.ContentType = "application/json";
         response.StatusCode = statuscode;
-        //var path = httpContext.Request.Headers["Referer"].ToString();
+        var path = httpContext.Request.Headers["Referer"].ToString();
 
-        var error = new
-        {
-            Message = message,
-            StatusCode = statuscode
-        };
-
-        return await Task.FromResult(new BadRequestObjectResult(error));
+        //var error = new
+        //{
+        //    Message = message,
+        //    StatusCode = statuscode
+        //};
+        
+        return await Task.FromResult(new RedirectToActionResult("Index", "Home",null));
     }
 }
 

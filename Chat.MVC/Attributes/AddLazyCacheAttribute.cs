@@ -11,11 +11,11 @@ public class AddLazyCacheAttribute:ActionFilterAttribute
     //{
     //    appCache = context.HttpContext.RequestServices.GetRequiredService<IAppCache>();
 
-    //    var cachedResult =await appCache.GetOrAddAsync("users", () => next(), duration);
+    //    var cachedResult = await appCache.GetOrAddAsync("users", () => next(), duration);
     //    if (cachedResult is not null)
     //        context.Result = cachedResult.Result;
 
-        
+
     //}
 
 }
