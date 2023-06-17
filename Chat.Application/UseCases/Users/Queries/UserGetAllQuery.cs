@@ -26,7 +26,7 @@ public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQuery, List<User
     }
     public async Task<List<UserGetDto>> Handle(UserGetAllQuery request, CancellationToken cancellationToken)
     {
-       
+
         var cachedResult = _cache.TryGetValue(_configuration.GetValue<string>("LazyCache:UserKey"), out List<UserGetDto> CachedResult);
         if (cachedResult)
         {
